@@ -1,4 +1,4 @@
-# 1. Seleccion de dependencias basicas para el proyecto.
+# 1 - Dependencias Principales del Proyecto Spring Boot
 
     <dependencies>
         <dependency>
@@ -32,7 +32,6 @@
         </dependency>
     </dependencies>
 
-# Dependencias Principales del Proyecto Spring Boot
 
 ## 1. Spring Data JPA
 ```xml
@@ -114,4 +113,5 @@
 - Permite crear pruebas más robustas
 - Facilita la implementación de TDD
 
-Estas dependencias forman la base de un proyecto Spring Boot robusto, proporcionando las herramientas necesarias para el desarrollo de aplicaciones empresariales modernas.
+
+# 2- Generacion de los modelos necesarios para la aplicacion
