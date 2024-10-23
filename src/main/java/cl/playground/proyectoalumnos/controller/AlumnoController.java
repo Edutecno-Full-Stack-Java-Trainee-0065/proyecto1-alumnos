@@ -5,6 +5,9 @@ import cl.playground.proyectoalumnos.dtos.CreateAlumnoDTO;
 import cl.playground.proyectoalumnos.dtos.UpdateAlumnoDTO;
 import cl.playground.proyectoalumnos.service.AlumnoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +39,11 @@ public class AlumnoController {
         return ResponseEntity.ok(alumnos);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<AlumnoDTO> updateAlumno(
-            @PathVariable Long id,
-            @RequestBody UpdateAlumnoDTO updateDto) {
+    public ResponseEntity<AlumnoDTO> updateAlumno(@PathVariable Long id, @RequestBody UpdateAlumnoDTO updateDto) {
         AlumnoDTO updatedAlumno = alumnoService.updateAlumno(id, updateDto);
         return ResponseEntity.ok(updatedAlumno);
     }
 
-    /*
     @GetMapping("/paged")
     public ResponseEntity<Page<AlumnoDTO>> getAllAlumnosPaginated(
             @RequestParam(defaultValue = "0") int page,
@@ -57,5 +57,22 @@ public class AlumnoController {
         Page<AlumnoDTO> alumnosPage = alumnoService.getAllAlumnosPaginated(pageRequest);
         return ResponseEntity.ok(alumnosPage);
     }
-    */
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAlumno(@PathVariable Long id) {
+        alumnoService.deleteAlumno(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search/nombre")
+    public ResponseEntity<List<AlumnoDTO>> findByNombre(@RequestParam String nombre) {
+        List<AlumnoDTO> alumnos = alumnoService.findByNombre(nombre);
+        return ResponseEntity.ok(alumnos);
+    }
+
+@GetMapping("/search/edad")
+    public ResponseEntity<List<AlumnoDTO>> findByEdad(@RequestParam int edadMinima, @RequestParam int edadMaxima) {
+        List<AlumnoDTO> alumnos = alumnoService.findByEdad(edadMinima, edadMaxima);
+        return ResponseEntity.ok(alumnos);
+    }
 }

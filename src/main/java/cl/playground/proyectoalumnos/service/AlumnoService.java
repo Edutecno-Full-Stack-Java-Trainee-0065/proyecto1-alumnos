@@ -4,8 +4,8 @@ import cl.playground.proyectoalumnos.dtos.AlumnoDTO;
 import cl.playground.proyectoalumnos.dtos.CreateAlumnoDTO;
 import cl.playground.proyectoalumnos.dtos.UpdateAlumnoDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface AlumnoService {
@@ -20,6 +20,6 @@ public interface AlumnoService {
 
     // Métodos adicionales de búsqueda
     List<AlumnoDTO> findByNombre(String nombre);
-    List<AlumnoDTO> findByEdad(int edad);
+    List<AlumnoDTO> findByEdad(int edadMinima, int edadMaxima);
 
 }

@@ -11,7 +11,7 @@ INSERT INTO alumnos (nombre, apellido, edad) VALUES ('Carlos', 'López', 19);
 INSERT INTO alumnos (nombre, apellido, edad) VALUES ('Ana', 'Martínez', 28);
 
 -- Inserción 5: Estudiante joven adulto
-INSERT INTO alumnos (nombre, apellido, edad) VALUES ('Diego', 'Sánchez', 22);
+INSERT INTO alumnos (nombre, apellido, edad) VALUES ('Juan', 'Sánchez', 22);
 
 -- Inserción 6: Estudiante internacional
 INSERT INTO alumnos (nombre, apellido, edad) VALUES ('Sophie', 'Thompson', 21);
