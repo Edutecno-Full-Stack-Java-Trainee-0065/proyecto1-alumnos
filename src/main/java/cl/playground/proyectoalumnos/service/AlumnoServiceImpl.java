@@ -5,6 +5,7 @@ import cl.playground.proyectoalumnos.dtos.AlumnoMapper;
 import cl.playground.proyectoalumnos.dtos.CreateAlumnoDTO;
 import cl.playground.proyectoalumnos.dtos.UpdateAlumnoDTO;
 import cl.playground.proyectoalumnos.exception.AlumnoNotFoundException;
+import cl.playground.proyectoalumnos.exception.ValidationException;
 import cl.playground.proyectoalumnos.model.Alumno;
 import cl.playground.proyectoalumnos.repository.AlumnoRepository;
 import cl.playground.proyectoalumnos.validation.AlumnoValidator;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,11 +97,30 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public List<AlumnoDTO> findByEdad(int edadMinima, int edadMaxima) {
+        List<String> errors = new ArrayList<>();
+
+        // Validar edad mínima
         if (edadMinima < 0) {
-            throw new IllegalArgumentException("La edad minima no puede ser negativa");
+            errors.add("La edad minima no puede ser negativa");
         }
+
+        // Validar edad máxima
+        if (edadMaxima < 0) {
+            errors.add("La edad maxima no puede ser negativa");
+        }
+
+        // Validar la relación entre edades siempre
         if (edadMaxima < edadMinima) {
-            throw new IllegalArgumentException("La edad maxima no puede ser menor a la minima");
+            errors.add("La edad maxima no puede ser menor a la minima");
+        }
+
+        // Opcional: validar límite superior razonable
+        if (edadMaxima > 120) {
+            errors.add("La edad maxima no puede ser mayor a 120 años");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
         }
 
         return alumnoRepository.findByEdadBetween(edadMinima, edadMaxima)

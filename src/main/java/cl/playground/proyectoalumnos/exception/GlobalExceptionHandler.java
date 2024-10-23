@@ -4,53 +4,55 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(AlumnoNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleAlumnoNotFoundException(AlumnoNotFoundException ex) {
-        List<String> details = new ArrayList<>();
-        details.add(ex.getMessage());
-
-        ErrorResponse error = new ErrorResponse(
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                "Alumno no encontrado",
-                details
+                "Error de validacion",
+                ex.getErrors()
         );
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AlumnoNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAlumnoNotFoundException(AlumnoNotFoundException ex, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                "Alumno no encontrado",
+                Collections.singletonList(ex.getMessage())
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(InvalidAlumnoDataException.class)
     public ResponseEntity<ErrorResponse> handleInvalidAlumnoDataException(InvalidAlumnoDataException ex) {
-        List<String> details = new ArrayList<>();
-        details.add(ex.getMessage());
-
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                "Datos de alumno invalidos",
-                details
+                "Datos del alumno no son validos",
+                Collections.singletonList(ex.getMessage())
         );
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
-        List<String> details = new ArrayList<>();
-        details.add(ex.getMessage());
-
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 "Error en el servidor",
-                details
+                Collections.singletonList(ex.getMessage())
         );
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 }

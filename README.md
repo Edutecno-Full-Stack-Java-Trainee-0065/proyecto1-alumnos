@@ -116,7 +116,6 @@
 
 # 2- Generacion de los modelos necesarios para la aplicacion
 
-
 # 3- Generacion de la capa de repository
 
 # 4- Generamos dtos
