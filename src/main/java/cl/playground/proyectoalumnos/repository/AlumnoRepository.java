@@ -10,4 +10,5 @@ import java.util.List;
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     List<Alumno> findByNombreContainingIgnoreCase(String nombre);
     List<Alumno> findByEdadBetween(int edadMinima, int edadMaxima);
+    List<Alumno> findAlumnoByNombreContainingIgnoreCaseAndEdadBetween(String nombre, int edadMinima, int edadMaxima);
 }
