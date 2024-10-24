@@ -96,6 +96,18 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
+    public List<AlumnoDTO> findByPalabra(String palabra) {
+        if (palabra == null || palabra.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacio");
+        }
+
+        return alumnoRepository.findByNombreOrApellido(palabra)
+                .stream()
+                .map(AlumnoMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<AlumnoDTO> findByEdad(int edadMinima, int edadMaxima) {
         List<String> errors = new ArrayList<>();
 

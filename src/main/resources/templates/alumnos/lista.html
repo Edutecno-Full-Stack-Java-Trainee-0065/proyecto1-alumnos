@@ -34,10 +34,17 @@
                 <input type="hidden" name="sortDir" th:value="${sortDir}"/>
 
                 <!-- Filtro por nombre -->
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" class="form-control" id="nombre" name="nombreFilter"
                            th:value="${param.nombreFilter}">
+                </div>
+
+                <!-- Filtro por Palabra -->
+                <div class="col-md-2">
+                    <label for="palabraFilter" class="form-label">Palabra</label>
+                    <input type="text" class="form-control" id="palabraFilter" name="palabraFilter"
+                           th:value="${param.palabraFilter}">
                 </div>
 
                 <!-- Filtro por rango de edad -->
@@ -121,7 +128,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${alumnos.empty}">
+                <tr th:if="${alumnos.isEmpty()}">
                     <td colspan="4" class="text-center">No se encontraron alumnos</td>
                 </tr>
                 <tr th:each="alumno : ${alumnos}">
