@@ -20,6 +20,7 @@ public interface AlumnoService {
 
     // Métodos adicionales de búsqueda
     List<AlumnoDTO> findByNombre(String nombre);
+    List<AlumnoDTO> findByPalabra(String palabra);
     List<AlumnoDTO> findByEdad(int edadMinima, int edadMaxima);
 
 }

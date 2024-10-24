@@ -30,6 +30,7 @@ public class AlumnoMvcController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir,
             @RequestParam(required = false) String nombreFilter,
+            @RequestParam(required = false) String palabraFilter,
             @RequestParam(required = false) Integer edadMin,
             @RequestParam(required = false) Integer edadMax,
             Model model,
@@ -41,13 +42,18 @@ public class AlumnoMvcController {
 
             // Si hay filtros, usamos los métodos de búsqueda existentes
             if ((nombreFilter != null && !nombreFilter.trim().isEmpty()) ||
+                    (palabraFilter != null && !palabraFilter.trim().isEmpty()) ||
                     (edadMin != null && edadMax != null)) {
 
-                List<AlumnoDTO> filteredAlumnos;
+                List<AlumnoDTO> filteredAlumnos = List.of();
                 if (nombreFilter != null && !nombreFilter.trim().isEmpty()) {
                     filteredAlumnos = alumnoService.findByNombre(nombreFilter);
-                } else {
+                }
+                if (edadMin != null && edadMax != null) {
                     filteredAlumnos = alumnoService.findByEdad(edadMin, edadMax);
+                }
+                if (palabraFilter != null && !palabraFilter.trim().isEmpty()){
+                    filteredAlumnos = alumnoService.findByPalabra(palabraFilter);
                 }
 
                 // Convertir la lista filtrada a una página
